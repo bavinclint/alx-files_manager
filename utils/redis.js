@@ -1,12 +1,11 @@
-/* eslint-disable */
-import { createClient } from "redis";
-import { promisify } from "util";
+import { createClient } from 'redis';
+import { promisify } from 'util';
 
 // class to define methods for commonly used redis commands
 class RedisClient {
   constructor() {
     this.client = createClient();
-    this.client.on("error", (error) => {
+    this.client.on('error', (error) => {
       console.log(`Redis client not connected to server: ${error}`);
     });
   }
@@ -33,15 +32,13 @@ class RedisClient {
     await this.client.expire(key, time);
   }
 
-  // del key value pair from redis server
+  // del key vale pair from redis server
   async del(key) {
     const redisDel = promisify(this.client.del).bind(this.client);
     await redisDel(key);
   }
 }
 
-// Create an instance of the RedisClient class
 const redisClient = new RedisClient();
 
-// Export the RedisClient instance to be used by other modules
 module.exports = redisClient;
